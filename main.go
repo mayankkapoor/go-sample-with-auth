@@ -39,9 +39,9 @@ func main() {
 	// /status - which we will call to make sure that our API is up and running
 	// /products - which will retrieve a list of products that the user can leave feedback on
 	// /products/{slug}/feedback - which will capture user feedback on products
-	r.Handle("/status", NotImplemented).Methods("GET")
-	r.Handle("/products", NotImplemented).Methods("GET")
-	r.Handle("/products/{slug}/feedback", NotImplemented).Methods("POST")
+	r.Handle("/status", StatusHandler).Methods("GET")
+	r.Handle("/products", ProductsHandler).Methods("GET")
+	r.Handle("/products/{slug}/feedback", AddFeedbackHandler).Methods("POST")
 
 	// Our application will run on port 8080. Here we declare the port and pass in our router.
 	http.ListenAndServe(":4000", r)
@@ -51,6 +51,12 @@ func main() {
 // we will simply return the message "Not Implemented"
 var NotImplemented = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Not Implemented"))
+})
+
+// StatusHandler will be invoked when the user calls the /status route
+// It will simply return a string with the message "API is up and running" */
+var StatusHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("API is up and running"))
 })
 
 // ProductsHandler will be called when the user makes a GET request to the /products endpoint.
